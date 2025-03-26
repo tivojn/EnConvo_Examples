@@ -58,24 +58,58 @@ document.addEventListener('DOMContentLoaded', function() {
                         const audioId = narrationBtn.getAttribute('data-audio');
                         const audio = document.getElementById(audioId);
                         
-                        // Play the narration
-                        audio.play();
-                        narrationBtn.innerHTML = '<i class="fas fa-pause"></i> Pause Narration';
+                        // Try to play the narration, handling autoplay policy
+                        const playPromise = audio.play();
                         
-                        // When narration ends, play the sound effect if available
-                        audio.onended = function() {
-                            narrationBtn.innerHTML = '<i class="fas fa-play"></i> Play Narration';
-                            
-                            // Find and play sound effect if it exists
-                            const soundBtn = activePage.querySelector('.play-sound');
-                            if (soundBtn) {
-                                const soundId = soundBtn.getAttribute('data-audio');
-                                const soundAudio = document.getElementById(soundId);
-                                if (soundAudio && !isMuted) {
-                                    soundAudio.play();
-                                }
-                            }
-                        };
+                        // Handle potential autoplay restrictions
+                        if (playPromise !== undefined) {
+                            playPromise.then(() => {
+                                // Autoplay started successfully
+                                narrationBtn.innerHTML = '<i class="fas fa-pause"></i> Pause Narration';
+                                
+                                // When narration ends, play the sound effect if available
+                                audio.onended = function() {
+                                    narrationBtn.innerHTML = '<i class="fas fa-play"></i> Play Narration';
+                                    
+                                    // Find and play sound effect if it exists
+                                    const soundBtn = activePage.querySelector('.play-sound');
+                                    if (soundBtn) {
+                                        const soundId = soundBtn.getAttribute('data-audio');
+                                        const soundAudio = document.getElementById(soundId);
+                                        if (soundAudio && !isMuted) {
+                                            soundAudio.play().catch(e => {
+                                                console.log('Sound effect autoplay prevented:', e);
+                                            });
+                                        }
+                                    }
+                                };
+                            }).catch(e => {
+                                // Autoplay was prevented by the browser
+                                console.log('Narration autoplay prevented:', e);
+                                narrationBtn.innerHTML = '<i class="fas fa-play"></i> Play Narration';
+                                // Indicate to the user that they need to interact to play audio
+                                const notification = document.createElement('div');
+                                notification.className = 'autoplay-notification';
+                                notification.innerHTML = 'Click the Play button to start the narration';
+                                notification.style.position = 'absolute';
+                                notification.style.top = '10px';
+                                notification.style.left = '50%';
+                                notification.style.transform = 'translateX(-50%)';
+                                notification.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
+                                notification.style.padding = '10px 15px';
+                                notification.style.borderRadius = '5px';
+                                notification.style.boxShadow = '0 2px 5px rgba(0,0,0,0.2)';
+                                notification.style.zIndex = '1000';
+                                activePage.appendChild(notification);
+                                
+                                // Remove notification after 5 seconds
+                                setTimeout(() => {
+                                    if (notification.parentNode) {
+                                        notification.parentNode.removeChild(notification);
+                                    }
+                                }, 5000);
+                            });
+                        }
                     }, 500); // Small delay to ensure page transition is complete
                 }
             }
