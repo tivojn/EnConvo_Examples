@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <rect width="400" height="300" fill="#e0e0e0"/>
+  <text x="200" y="150" font-family="Arial, sans-serif" font-size="24" text-anchor="middle" fill="#777777">Coming Soon</text>
+  <text x="200" y="180" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#777777">Oxford Reading Tree</text>
+</svg>

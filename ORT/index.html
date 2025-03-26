@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="An interactive storybook from Oxford Reading Tree featuring Biff, Chip, Kipper, and Floppy in 'The Big Adventure'">
+    <meta name="keywords" content="Oxford Reading Tree, children's book, Biff, Chip, Kipper, Floppy, interactive story">
+    <meta name="author" content="Oxford Reading Tree">
+    
+    <title>The Big Adventure | Oxford Reading Tree</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Schoolbell&family=Gloria+Hallelujah&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="title">The Big Adventure</h1>
+            <p>Oxford Reading Tree Series</p>
+        </header>
+        
+        <div class="sound-controls">
+            <button class="audio-button mute-toggle" data-status="unmuted">
+                <i class="fas fa-volume-up"></i> Sound On
+            </button>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        
+        <main class="book">
+            <!-- Cover Page -->
+            <div class="page active" id="page-cover">
+                <img src="assets/images/cover.png" alt="Cover - Biff, Chip and Kipper" class="story-image">
+                <div class="overlay-content">
+                    <p class="story-text">Join Biff, Chip, Kipper, and their dog Floppy on an exciting adventure at the park!</p>
+                    <div class="audio-controls">
+                        <button class="audio-button play-narration" data-audio="cover_narration">
+                            <i class="fas fa-play"></i> Play Narration
+                        </button>
+                    </div>
+                </div>
+                <h2 class="subtitle">Cover</h2>
+            </div>
+
+            <!-- Page 1 -->
+            <div class="page" id="page-1">
+                <img src="assets/images/page1_toys.png" alt="Children playing with toys" class="story-image">
+                <div class="overlay-content">
+                    <p class="story-text">Biff, Chip, and Kipper were playing with their toys in the garden. They had blocks, cars, and other fun toys.</p>
+                    <div class="audio-controls">
+                        <button class="audio-button play-narration" data-audio="page1_narration">
+                            <i class="fas fa-play"></i> Play Narration
+                        </button>
+                        <button class="audio-button play-sound" data-audio="toys_sound_effect">
+                            <i class="fas fa-volume-up"></i> Toy Sounds
+                        </button>
+                    </div>
+                </div>
+                <h2 class="subtitle">Page 1</h2>
+            </div>
+
+            <!-- Page 2 -->
+            <div class="page" id="page-2">
+                <img src="assets/images/page2_walking.png" alt="Walking to the park with Floppy" class="story-image">
+                <div class="overlay-content">
+                    <p class="story-text">"Let's go to the park," said Mom. "We can take Floppy with us." The children walked to the park with their dog Floppy.</p>
+                    <div class="audio-controls">
+                        <button class="audio-button play-narration" data-audio="page2_narration">
+                            <i class="fas fa-play"></i> Play Narration
+                        </button>
+                        <button class="audio-button play-sound" data-audio="walking_sound_effect">
+                            <i class="fas fa-volume-up"></i> Walking Sounds
+                        </button>
+                    </div>
+                </div>
+                <h2 class="subtitle">Page 2</h2>
+            </div>
+
+            <!-- Page 3 -->
+            <div class="page" id="page-3">
+                <img src="assets/images/page3_ball.png" alt="Kipper finding a ball" class="story-image">
+                <div class="overlay-content">
+                    <p class="story-text">"Look!" said Kipper. "I found a ball." The children played catch with the red ball. Floppy watched them play.</p>
+                    <div class="audio-controls">
+                        <button class="audio-button play-narration" data-audio="page3_narration">
+                            <i class="fas fa-play"></i> Play Narration
+                        </button>
+                        <button class="audio-button play-sound" data-audio="ball_bouncing_sound_effect">
+                            <i class="fas fa-volume-up"></i> Ball Sounds
+                        </button>
+                    </div>
+                </div>
+                <h2 class="subtitle">Page 3</h2>
+            </div>
+
+            <!-- Page 4 -->
+            <div class="page" id="page-4">
+                <img src="assets/images/page4_ball_in_pond.png" alt="Ball in the pond" class="story-image">
+                <div class="overlay-content">
+                    <p class="story-text">Oh no! The ball went too far and landed in the pond. "What will we do now?" asked Biff. They all looked at the ball floating on the water.</p>
+                    <div class="audio-controls">
+                        <button class="audio-button play-narration" data-audio="page4_narration">
+                            <i class="fas fa-play"></i> Play Narration
+                        </button>
+                        <button class="audio-button play-sound" data-audio="pond_splash_sound_effect">
+                            <i class="fas fa-volume-up"></i> Splash Sound
+                        </button>
+                    </div>
+                </div>
+                <h2 class="subtitle">Page 4</h2>
+            </div>
+
+            <!-- Page 5 -->
+            <div class="page" id="page-5">
+                <img src="assets/images/page5_floppy_jumping.png" alt="Floppy jumping into the pond" class="story-image">
+                <div class="overlay-content">
+                    <p class="story-text">Suddenly, Floppy ran to the pond. Splash! He jumped into the water. "Floppy is going to get the ball!" shouted Chip.</p>
+                    <div class="audio-controls">
+                        <button class="audio-button play-narration" data-audio="page5_narration">
+                            <i class="fas fa-play"></i> Play Narration
+                        </button>
+                        <button class="audio-button play-sound" data-audio="pond_splash_sound_effect">
+                            <i class="fas fa-volume-up"></i> Splash Sound
+                        </button>
+                    </div>
+                </div>
+                <h2 class="subtitle">Page 5</h2>
+            </div>
+
+            <!-- Page 6 -->
+            <div class="page" id="page-6">
+                <img src="assets/images/page6_floppy_retrieving.png" alt="Floppy retrieving the ball" class="story-image">
+                <div class="overlay-content">
+                    <p class="story-text">Floppy swam to the ball and grabbed it in his mouth. Then he brought it back to the children. "Good dog, Floppy!" they all cheered. What a brave dog!</p>
+                    <div class="audio-controls">
+                        <button class="audio-button play-narration" data-audio="page6_narration">
+                            <i class="fas fa-play"></i> Play Narration
+                        </button>
+                        <button class="audio-button play-sound" data-audio="happy_children_sound_effect">
+                            <i class="fas fa-volume-up"></i> Cheering Sounds
+                        </button>
+                    </div>
+                </div>
+                <h2 class="subtitle">Page 6</h2>
+            </div>
+        </main>
+
+        <div class="nav-buttons">
+            <button class="nav-button" id="prevBtn" disabled><i class="fas fa-arrow-left"></i> Previous</button>
+            <button class="nav-button" id="nextBtn">Next <i class="fas fa-arrow-right"></i></button>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 Oxford Reading Tree. All rights reserved.</p>
+            <p>Illustrated version of "The Big Adventure" featuring Biff, Chip, Kipper, and Floppy</p>
+        </footer>
+    </div>
+
+    <!-- Audio Elements -->
+    <audio id="cover_narration" src="assets/audio/cover_narration.mp3"></audio>
+    <audio id="page1_narration" src="assets/audio/page1_narration.mp3"></audio>
+    <audio id="page2_narration" src="assets/audio/page2_narration.mp3"></audio>
+    <audio id="page3_narration" src="assets/audio/page3_narration.mp3"></audio>
+    <audio id="page4_narration" src="assets/audio/page4_narration.mp3"></audio>
+    <audio id="page5_narration" src="assets/audio/page5_narration.mp3"></audio>
+    <audio id="page6_narration" src="assets/audio/page6_narration.mp3"></audio>
+    
+    <audio id="toys_sound_effect" src="assets/audio/toys_sound_effect.mp3"></audio>
+    <audio id="walking_sound_effect" src="assets/audio/walking_sound_effect.mp3"></audio>
+    <audio id="ball_bouncing_sound_effect" src="assets/audio/ball_bouncing_sound_effect.mp3"></audio>
+    <audio id="pond_splash_sound_effect" src="assets/audio/pond_splash_sound_effect.mp3"></audio>
+    <audio id="happy_children_sound_effect" src="assets/audio/happy_children_sound_effect.mp3"></audio>
+
+    <!-- Scripts -->
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

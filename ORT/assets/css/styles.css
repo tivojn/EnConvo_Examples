@@ -1,0 +1,454 @@
+.overlay-content {
+  position: absolute;
+  bottom: 2rem;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1rem;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Global Sound Controls */
+.sound-controls {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.5rem;
+}
+
+/**
+ * Oxford Reading Tree - Interactive Story
+ * Main Stylesheet
+ */
+
+/* Reset and Base Styles */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-color: #3563E9;
+  --secondary-color: #FF6B6B;
+  --text-color: #333333;
+  --light-gray: #F5F7FA;
+  --white: #FFFFFF;
+  --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
+}
+
+body {
+  font-family: 'Bubblegum Sans', 'Comic Sans MS', 'Marker Felt', cursive;
+  background-color: var(--light-gray);
+  color: var(--text-color);
+  line-height: 1.6;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Header Styles */
+header {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.title {
+  font-family: 'Gloria Hallelujah', cursive;
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.1);
+}
+
+.subtitle {
+  font-family: 'Schoolbell', cursive;
+  font-size: 1.4rem;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Book Layout */
+.book {
+  background-color: var(--white);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  width: 100%;
+  max-width: 900px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 0.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.page {
+  display: none;
+  padding: 0;
+  text-align: center;
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.page.active {
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 0.5s ease-in-out;
+  position: relative;
+}
+
+.story-text {
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+  line-height: 1.5;
+  text-align: center;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  font-family: 'Bubblegum Sans', 'Comic Sans MS', cursive;
+}
+
+/* Images */
+.story-image {
+  max-width: 100%;
+  height: 65vh;
+  width: 100%;
+  border-radius: 8px;
+  margin: 0;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+  object-fit: cover;
+  position: relative;
+}
+
+.story-image:hover {
+  transform: scale(1.02);
+}
+
+/* Navigation */
+.nav-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 900px;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.nav-button {
+  padding: 0.75rem 1.5rem;
+  background-color: var(--primary-color);
+  color: var(--white);
+  border: none;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-button:hover {
+  background-color: #2a4fc3;
+  transform: translateY(-2px);
+}
+
+.nav-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Audio Controls */
+.audio-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.5rem 0;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.audio-button {
+  padding: 0.5rem 0.75rem;
+  background-color: var(--secondary-color);
+  color: var(--white);
+  border: none;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.audio-button i {
+  font-size: 1rem;
+}
+
+.audio-button:hover {
+  background-color: #ff5252;
+  transform: translateY(-2px);
+}
+
+/* Progress bar */
+.progress-container {
+  width: 100%;
+  max-width: 900px;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  margin-bottom: 0.5rem;
+  height: 6px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: var(--primary-color);
+  border-radius: 10px;
+  transition: width 0.3s ease;
+}
+
+/* Footer */
+footer {
+  width: 100%;
+  text-align: center;
+  padding: 0.5rem 0;
+  font-size: 0.8rem;
+  color: #777;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Enhanced Responsive Design */
+@media screen and (max-width: 992px) {
+  .container {
+    padding: 0.75rem;
+  }
+  
+  .book, .nav-buttons, .progress-container {
+    max-width: 95%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .title {
+    font-size: 1.5rem;
+  }
+  
+  .subtitle {
+    font-size: 1.1rem;
+    bottom: 0.75rem;
+    right: 0.75rem;
+    padding: 0.4rem 0.75rem;
+  }
+  
+  .story-text {
+    font-size: 0.95rem;
+    width: 95%;
+    padding: 0.75rem;
+  }
+  
+  .page {
+    padding: 0;
+  }
+  
+  .nav-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .story-image {
+    height: 60vh;
+  }
+
+  .overlay-content {
+    bottom: 1rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .container {
+    padding: 0.5rem;
+  }
+
+  .title {
+    font-size: 1.3rem;
+  }
+  
+  .subtitle {
+    font-size: 0.9rem;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    padding: 0.3rem 0.6rem;
+  }
+  
+  .story-text {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    width: 95%;
+    padding: 0.5rem;
+  }
+  
+  .page {
+    padding: 0;
+  }
+  
+  .nav-button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+  
+  .audio-button {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.8rem;
+    border-radius: 15px;
+  }
+  
+  .story-image {
+    height: 55vh;
+  }
+  
+  footer {
+    font-size: 0.7rem;
+  }
+
+  .overlay-content {
+    bottom: 0.5rem;
+  }
+}
+
+/* Portrait/Landscape Orientation Adjustments */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+  .container {
+    padding: 0.4rem;
+  }
+  
+  header {
+    margin-bottom: 0.2rem;
+  }
+  
+  .title {
+    font-size: 1.2rem;
+    margin-bottom: 0.2rem;
+  }
+  
+  .subtitle {
+    font-size: 0.8rem;
+    bottom: 0.3rem;
+    right: 0.3rem;
+    padding: 0.2rem 0.4rem;
+  }
+  
+  .story-image {
+    height: 70vh;
+  }
+  
+  .story-text {
+    font-size: 0.85rem;
+    margin: 0.3rem 0;
+    line-height: 1.3;
+    padding: 0.5rem;
+  }
+  
+  .nav-button {
+    padding: 0.3rem 0.7rem;
+    font-size: 0.8rem;
+  }
+  
+  .audio-controls {
+    margin: 0.2rem 0;
+  }
+  
+  footer {
+    padding: 0.2rem 0;
+    font-size: 0.7rem;
+  }
+  
+  .overlay-content {
+    bottom: 0.3rem;
+  }
+}
+
+/* High-res Tablets and Small Laptops */
+@media screen and (min-width: 992px) and (max-width: 1200px) {
+  .story-image {
+    height: 60vh;
+  }
+  
+  .container {
+    max-width: 95%;
+  }
+}
+
+/* Large Screens */
+@media screen and (min-width: 1201px) {
+  .book {
+    max-width: 1000px;
+  }
+  
+  .story-image {
+    height: 70vh;
+  }
+  
+  .story-text {
+    font-size: 1.3rem;
+    width: 80%;
+  }
+  
+  .subtitle {
+    font-size: 1.6rem;
+  }
+}
