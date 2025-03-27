@@ -117,6 +117,12 @@
       "passwordHash": "tempHash",
       "chapterProgress": 1,
       "vocabProgress": {}
+    },
+    {
+      "username": "hh",
+      "passwordHash": "tempHash",
+      "chapterProgress": 1,
+      "vocabProgress": {}
     }
   ]
 }
