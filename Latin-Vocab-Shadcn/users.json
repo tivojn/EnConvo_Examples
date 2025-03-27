@@ -111,6 +111,12 @@
           "incorrectCount": 1
         }
       }
+    },
+    {
+      "username": "gg",
+      "passwordHash": "tempHash",
+      "chapterProgress": 1,
+      "vocabProgress": {}
     }
   ]
 }
