@@ -13,15 +13,15 @@
   "routes": [
     {
       "src": "/Latin-Vocab-Shadcn/api/(.*)",
-      "dest": "/server.js"
-    },
-    {
-      "src": "/Latin-Vocab-Shadcn/(.*)",
-      "dest": "/public/$1"
+      "dest": "server.js"
     },
     {
       "src": "/Latin-Vocab-Shadcn",
       "dest": "/public/index.html"
+    },
+    {
+      "src": "/Latin-Vocab-Shadcn/(.*)",
+      "dest": "/public/$1"
     }
   ]
 }
