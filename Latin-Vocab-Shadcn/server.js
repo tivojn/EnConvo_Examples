@@ -10,16 +10,81 @@ const PORT = process.env.PORT || 3000;
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 
+// Default data (used as fallback in Vercel environment)
+const DEFAULT_VOCABULARY = {
+  "chapters": [
+    {
+      "chapterNumber": 1,
+      "chapterTitle": "House and Family",
+      "words": [
+        {
+          "latin": "domus",
+          "english": "house",
+          "latinSentence": "Domus nostra magna est.",
+          "englishSentence": "Our house is large."
+        },
+        {
+          "latin": "familia",
+          "english": "family",
+          "latinSentence": "Familia mea parva est.",
+          "englishSentence": "My family is small."
+        },
+        {
+          "latin": "pater",
+          "english": "father",
+          "latinSentence": "Pater meus agricola est.",
+          "englishSentence": "My father is a farmer."
+        }
+      ]
+    },
+    {
+      "chapterNumber": 2,
+      "chapterTitle": "Daily Life and Objects",
+      "words": [
+        {
+          "latin": "cibus",
+          "english": "food",
+          "latinSentence": "Cibus est in mensa.",
+          "englishSentence": "The food is on the table."
+        },
+        {
+          "latin": "aqua",
+          "english": "water",
+          "latinSentence": "Aqua in fluvio est.",
+          "englishSentence": "Water is in the river."
+        }
+      ]
+    }
+  ]
+};
+
+const DEFAULT_USERS = {
+  "users": [
+    {
+      "username": "testuser",
+      "passwordHash": "tempHash",
+      "chapterProgress": 1,
+      "vocabProgress": {}
+    }
+  ]
+};
+
 // Path to data files
 const VOCABULARY_FILE = path.join(__dirname, 'vocabulary.json');
 const USERS_FILE = path.join(__dirname, 'users.json');
 
-// Helper function to read JSON files
+// Helper function to read JSON files (with fallback for Vercel environment)
 function readJsonFile(filePath) {
   console.log(`Reading file: ${filePath}`);
   try {
     if (!fs.existsSync(filePath)) {
-      console.error(`File does not exist: ${filePath}`);
+      console.warn(`File does not exist: ${filePath}, using default data`);
+      // Return default data based on the file requested
+      if (filePath.includes('vocabulary')) {
+        return DEFAULT_VOCABULARY;
+      } else if (filePath.includes('users')) {
+        return DEFAULT_USERS;
+      }
       return null;
     }
     
@@ -32,17 +97,36 @@ function readJsonFile(filePath) {
       return jsonData;
     } catch (parseError) {
       console.error(`Error parsing JSON from ${filePath}:`, parseError);
+      // Return default data in case of parse error
+      if (filePath.includes('vocabulary')) {
+        return DEFAULT_VOCABULARY;
+      } else if (filePath.includes('users')) {
+        return DEFAULT_USERS;
+      }
       return null;
     }
   } catch (error) {
     console.error(`Error reading file ${filePath}:`, error);
+    // Return default data in case of read error
+    if (filePath.includes('vocabulary')) {
+      return DEFAULT_VOCABULARY;
+    } else if (filePath.includes('users')) {
+      return DEFAULT_USERS;
+    }
     return null;
   }
 }
 
-// Helper function to write JSON files
+// Helper function to write JSON files with special handling for Vercel
 function writeJsonFile(filePath, data) {
   try {
+    // In production (likely Vercel), log but don't actually write
+    if (process.env.NODE_ENV === 'production') {
+      console.log(`[Vercel Mode] Would write to ${filePath}, but skipping in production`);
+      return true;
+    }
+    
+    // Only write file in development
     fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
     return true;
   } catch (error) {
@@ -51,6 +135,7 @@ function writeJsonFile(filePath, data) {
   }
 }
 
+// The rest of your API routes and server logic remain the same
 // Get all chapters
 app.get('/api/vocabulary/chapters', (req, res) => {
   console.log('GET /api/vocabulary/chapters requested');
@@ -96,8 +181,6 @@ app.get('/api/vocabulary/chapters/:chapterNumber', (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 });
-
-
 
 // Get next question for practice
 app.get('/api/practice/next-question', (req, res) => {
@@ -205,11 +288,7 @@ app.get('/api/practice/next-question', (req, res) => {
       distractors = distractors
         .sort(() => 0.5 - Math.random())
         .slice(0, 3)
-        .map(() => {
-          // Get random Latin words as distractors
-          const randomDistractor = wordsPool[Math.floor(Math.random() * wordsPool.length)];
-          return randomDistractor.latin;
-        });
+        .map(word => word.latin);
       
       question = {
         format: 'multiple-choice',
@@ -343,7 +422,7 @@ app.post('/api/practice/submit-answer', (req, res) => {
   
   // Save updated user data
   if (!writeJsonFile(USERS_FILE, usersData)) {
-    return res.status(500).json({ error: 'Failed to update user progress' });
+    console.warn('Failed to update user progress (expected in production)');
   }
   
   // Return feedback
@@ -408,7 +487,7 @@ app.post('/api/users/login', (req, res) => {
     usersData.users.push(user);
     
     if (!writeJsonFile(USERS_FILE, usersData)) {
-      return res.status(500).json({ error: 'Failed to create user' });
+      console.warn('Failed to create user (expected in production)');
     }
   }
   
@@ -418,9 +497,19 @@ app.post('/api/users/login', (req, res) => {
   });
 });
 
+// Add a catch-all route to serve index.html for any other routes
+// This is important for single-page applications in production
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
   console.log(`Vocabulary file: ${VOCABULARY_FILE}`);
   console.log(`Users file: ${USERS_FILE}`);
+  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
 });
+
+// Export the Express API for Vercel
+module.exports = app;
