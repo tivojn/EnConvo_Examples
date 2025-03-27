@@ -135,9 +135,21 @@ function writeJsonFile(filePath, data) {
   }
 }
 
+// Handle both prefixed and non-prefixed API routes
+// For deploying under /Latin-Vocab-Shadcn/ path
+const handleBothPaths = (route, handler) => {
+  app.get(route, handler); // Standard route
+  app.get(`/Latin-Vocab-Shadcn${route}`, handler); // Route with prefix
+};
+
+const handleBothPathsPost = (route, handler) => {
+  app.post(route, handler); // Standard route
+  app.post(`/Latin-Vocab-Shadcn${route}`, handler); // Route with prefix
+};
+
 // The rest of your API routes and server logic remain the same
 // Get all chapters
-app.get('/api/vocabulary/chapters', (req, res) => {
+handleBothPaths('/api/vocabulary/chapters', (req, res) => {
   console.log('GET /api/vocabulary/chapters requested');
   try {
     const vocabularyData = readJsonFile(VOCABULARY_FILE);
@@ -159,7 +171,7 @@ app.get('/api/vocabulary/chapters', (req, res) => {
 });
 
 // Get chapter by number
-app.get('/api/vocabulary/chapters/:chapterNumber', (req, res) => {
+handleBothPaths('/api/vocabulary/chapters/:chapterNumber', (req, res) => {
   const chapterNumber = parseInt(req.params.chapterNumber, 10);
   
   try {
@@ -183,7 +195,7 @@ app.get('/api/vocabulary/chapters/:chapterNumber', (req, res) => {
 });
 
 // Get next question for practice
-app.get('/api/practice/next-question', (req, res) => {
+handleBothPaths('/api/practice/next-question', (req, res) => {
   const { chapter, mode, questionFormat } = req.query;
   const vocabularyData = readJsonFile(VOCABULARY_FILE);
   
@@ -348,7 +360,7 @@ app.get('/api/practice/next-question', (req, res) => {
 });
 
 // Submit an answer
-app.post('/api/practice/submit-answer', (req, res) => {
+handleBothPathsPost('/api/practice/submit-answer', (req, res) => {
   const { username, latinWord, userAnswer, format } = req.body;
   
   if (!username || !latinWord || !userAnswer) {
@@ -437,7 +449,7 @@ app.post('/api/practice/submit-answer', (req, res) => {
 });
 
 // Get user progress
-app.get('/api/users/:username/progress', (req, res) => {
+handleBothPaths('/api/users/:username/progress', (req, res) => {
   const { username } = req.params;
   
   const usersData = readJsonFile(USERS_FILE);
@@ -459,7 +471,7 @@ app.get('/api/users/:username/progress', (req, res) => {
 });
 
 // User login (simplified, no real auth)
-app.post('/api/users/login', (req, res) => {
+handleBothPathsPost('/api/users/login', (req, res) => {
   const { username } = req.body;
   
   if (!username) {
@@ -500,7 +512,12 @@ app.post('/api/users/login', (req, res) => {
 // Add a catch-all route to serve index.html for any other routes
 // This is important for single-page applications in production
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  // Check if the request is for the prefixed path
+  if (req.path.startsWith('/Latin-Vocab-Shadcn/')) {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  } else {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  }
 });
 
 // Start the server
