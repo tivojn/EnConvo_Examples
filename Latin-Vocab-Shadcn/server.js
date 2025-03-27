@@ -147,7 +147,6 @@ const handleBothPathsPost = (route, handler) => {
   app.post(`/Latin-Vocab-Shadcn${route}`, handler); // Route with prefix
 };
 
-// The rest of your API routes and server logic remain the same
 // Get all chapters
 handleBothPaths('/api/vocabulary/chapters', (req, res) => {
   console.log('GET /api/vocabulary/chapters requested');
@@ -162,7 +161,6 @@ handleBothPaths('/api/vocabulary/chapters', (req, res) => {
     console.log(`Found ${vocabularyData.chapters.length} chapters in vocabulary data`);
     
     // For simplicity, return all chapters
-    // In a real app, you might filter based on user progress
     res.json(vocabularyData.chapters);
   } catch (error) {
     console.error('Error in /api/vocabulary/chapters:', error);
@@ -283,7 +281,6 @@ handleBothPaths('/api/practice/next-question', (req, res) => {
         .slice(0, 3)
         .map(word => word.english);
       
-      // Ask for the English translation of a Latin word
       question = {
         format: 'multiple-choice',
         type: direction,
@@ -296,7 +293,6 @@ handleBothPaths('/api/practice/next-question', (req, res) => {
       };
     } else {
       // Ask for the Latin translation of an English word
-      // Get Latin distractors
       distractors = distractors
         .sort(() => 0.5 - Math.random())
         .slice(0, 3)
@@ -320,7 +316,6 @@ handleBothPaths('/api/practice/next-question', (req, res) => {
       const fullSentence = randomWord.englishSentence;
       const wordToReplace = randomWord.english;
       
-      // Replace the word with a blank (handle multiple forms of the word by checking if it contains the word)
       const clozePattern = new RegExp(`\\b${wordToReplace}\\b`, 'i');
       const clozeSentence = fullSentence.replace(clozePattern, '___________');
       
@@ -339,7 +334,6 @@ handleBothPaths('/api/practice/next-question', (req, res) => {
       const fullSentence = randomWord.latinSentence;
       const wordToReplace = randomWord.latin;
       
-      // Replace the word with a blank
       const clozePattern = new RegExp(`\\b${wordToReplace}\\b`, 'i');
       const clozeSentence = fullSentence.replace(clozePattern, '___________');
       
@@ -401,7 +395,6 @@ handleBothPathsPost('/api/practice/submit-answer', (req, res) => {
   let isCorrect = false;
   
   if (format === 'fill-in-the-blank') {
-    // For fill-in-the-blank, do a more flexible check (case-insensitive and ignore extra spaces)
     const normalizedUserAnswer = userAnswer.trim().toLowerCase();
     const normalizedCorrectEnglish = correctWord.english.trim().toLowerCase();
     const normalizedCorrectLatin = correctWord.latin.trim().toLowerCase();
@@ -411,7 +404,6 @@ handleBothPathsPost('/api/practice/submit-answer', (req, res) => {
       normalizedUserAnswer === normalizedCorrectLatin
     );
   } else {
-    // For multiple choice, check exact match
     isCorrect = (
       userAnswer === correctWord.english || 
       userAnswer === correctWord.latin
@@ -437,7 +429,6 @@ handleBothPathsPost('/api/practice/submit-answer', (req, res) => {
     console.warn('Failed to update user progress (expected in production)');
   }
   
-  // Return feedback
   res.json({
     correct: isCorrect,
     correctAnswer: correctWord.english,
@@ -484,14 +475,12 @@ handleBothPathsPost('/api/users/login', (req, res) => {
     return res.status(500).json({ error: 'Failed to read user data' });
   }
   
-  // Check if user exists
   let user = usersData.users.find(u => u.username === username);
   
-  // If user doesn't exist, create a new one
   if (!user) {
     user = {
       username,
-      passwordHash: "tempHash", // In a real app, you'd hash a password
+      passwordHash: "tempHash",
       chapterProgress: 1,
       vocabProgress: {}
     };
@@ -509,15 +498,20 @@ handleBothPathsPost('/api/users/login', (req, res) => {
   });
 });
 
-// Add a catch-all route to serve index.html for any other routes
-// This is important for single-page applications in production
+// ===========================
+// Added test endpoints
+app.get('/Latin-Vocab-Shadcn/api/test', (req, res) => {
+  res.json({ message: 'API is working!', timestamp: new Date().toISOString() });
+});
+
+app.get('/api/test', (req, res) => {
+  res.json({ message: 'API is working!', timestamp: new Date().toISOString() });
+});
+// ===========================
+
+// Catch-all route to serve index.html for any other routes (important for single-page apps)
 app.get('*', (req, res) => {
-  // Check if the request is for the prefixed path
-  if (req.path.startsWith('/Latin-Vocab-Shadcn/')) {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-  } else {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-  }
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Start the server
