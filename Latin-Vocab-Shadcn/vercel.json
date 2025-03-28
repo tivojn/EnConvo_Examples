@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "server.js",
+      "src": "api/**/*.js",
       "use": "@vercel/node"
     },
     {
@@ -12,22 +12,19 @@
   ],
   "routes": [
     {
+      "src": "/api/vocabulary/chapters/(?<chapterNumber>[^/]+)",
+      "dest": "/api/vocabulary/chapters/[chapterNumber].js?chapterNumber=$chapterNumber"
+    },
+    {
+      "src": "/api/users/(?<username>[^/]+)/progress",
+      "dest": "/api/users/[username]/progress.js?username=$username"
+    },
+    {
       "src": "/api/(.*)",
-      "dest": "server.js"
+      "dest": "/api/$1.js"
     },
     {
-      "src": "/Latin-Vocab-Shadcn/api/(.*)",
-      "dest": "server.js"
-    },
-    {
-      "src": "/Latin-Vocab-Shadcn/?",
-      "status": 308,
-      "headers": {
-        "Location": "/Latin-Vocab-Shadcn/public/index.html"
-      }
-    },
-    {
-      "src": "/Latin-Vocab-Shadcn/(.*)",
+      "src": "/(.*)",
       "dest": "/public/$1"
     }
   ]

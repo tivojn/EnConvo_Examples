@@ -1,0 +1,262 @@
+{
+  "chapters": [
+    {
+      "chapterNumber": 1,
+      "chapterTitle": "Cambridge Latin Course Book 1 - Checklist 1",
+      "words": [
+        {
+          "latin": "canis",
+          "english": "dog",
+          "latinSentence": "Canis Rufus cum puero in horto ludit.",
+          "englishSentence": "The dog Rufus plays with the boy in the garden."
+        },
+        {
+          "latin": "coquus",
+          "english": "cook",
+          "latinSentence": "Coquus Marcus cenam parat in culina.",
+          "englishSentence": "The cook Marcus prepares dinner in the kitchen."
+        },
+        {
+          "latin": "est",
+          "english": "is",
+          "latinSentence": "Marcus est discipulus diligens.",
+          "englishSentence": "Marcus is a diligent student."
+        },
+        {
+          "latin": "fīlius",
+          "english": "son",
+          "latinSentence": "Pater spectat fīlium in horto ludere.",
+          "englishSentence": "The father watches his son playing in the garden."
+        },
+        {
+          "latin": "hortus",
+          "english": "garden",
+          "latinSentence": "Māter rosas in horto colligit.",
+          "englishSentence": "The mother gathers roses in the garden."
+        },
+        {
+          "latin": "in",
+          "english": "in",
+          "latinSentence": "Puella ambulat in via antiqua.",
+          "englishSentence": "The girl walks in the old street."
+        },
+        {
+          "latin": "labōrat",
+          "english": "works, is working",
+          "latinSentence": "Servus labōrat in domo diligenter.",
+          "englishSentence": "The slave works diligently in the house."
+        },
+        {
+          "latin": "māter",
+          "english": "mother",
+          "latinSentence": "Māter curam habet de familia sua.",
+          "englishSentence": "The mother takes care of her family."
+        },
+        {
+          "latin": "pater",
+          "english": "father",
+          "latinSentence": "Pater semper consilium dat.",
+          "englishSentence": "The father always gives advice."
+        },
+        {
+          "latin": "sedet",
+          "english": "sits, is sitting",
+          "latinSentence": "Senex sedet sub arbore in horto.",
+          "englishSentence": "The old man sits under the tree in the garden."
+        },
+        {
+          "latin": "servus",
+          "english": "slave",
+          "latinSentence": "Servus domum purgat ante cenam.",
+          "englishSentence": "The slave cleans the house before dinner."
+        },
+        {
+          "latin": "via",
+          "english": "street",
+          "latinSentence": "Discipuli ambulant in via ad scholam.",
+          "englishSentence": "The students walk in the street to school."
+        }
+      ]
+    },
+    {
+      "chapterNumber": 2,
+      "chapterTitle": "Cambridge Latin Course Book 1 - Checklist 2",
+      "words": [
+        {
+          "latin": "amīcus",
+          "english": "friend",
+          "latinSentence": "Amīcus fidus semper adest.",
+          "englishSentence": "The loyal friend is always present."
+        },
+        {
+          "latin": "ancilla",
+          "english": "slave-girl, maid",
+          "latinSentence": "Ancilla domum ordinet cum cura.",
+          "englishSentence": "The maid tidies the house with care."
+        },
+        {
+          "latin": "cēna",
+          "english": "dinner",
+          "latinSentence": "Familia simul ad cēnam convenit.",
+          "englishSentence": "The family gathers together for dinner."
+        },
+        {
+          "latin": "cibus",
+          "english": "food",
+          "latinSentence": "Cibus sapidus in mensā apparet.",
+          "englishSentence": "Delicious food appears on the table."
+        },
+        {
+          "latin": "dominus",
+          "english": "master",
+          "latinSentence": "Dominus domus in honore regit.",
+          "englishSentence": "The master rules the house with dignity."
+        },
+        {
+          "latin": "dormit",
+          "english": "sleeps",
+          "latinSentence": "Puer dormit post longam diem ludendi.",
+          "englishSentence": "The boy sleeps after a long day of playing."
+        },
+        {
+          "latin": "intrat",
+          "english": "enters",
+          "latinSentence": "Servus intrat in atrium cum celeritate.",
+          "englishSentence": "The slave enters the atrium quickly."
+        },
+        {
+          "latin": "laetus",
+          "english": "happy",
+          "latinSentence": "Puella laeta ridet in horto.",
+          "englishSentence": "The happy girl smiles in the garden."
+        },
+        {
+          "latin": "laudat",
+          "english": "praises",
+          "latinSentence": "Magister laudat discipulos pro eorum labore.",
+          "englishSentence": "The teacher praises the students for their work."
+        },
+        {
+          "latin": "mercātor",
+          "english": "merchant",
+          "latinSentence": "Mercātor diligenter mercem vendit in foro.",
+          "englishSentence": "The merchant diligently sells his goods in the market."
+        },
+        {
+          "latin": "quoque",
+          "english": "also",
+          "latinSentence": "Marcus quoque ad cenam venit.",
+          "englishSentence": "Marcus also comes to dinner."
+        },
+        {
+          "latin": "salūtat",
+          "english": "greets",
+          "latinSentence": "Ancilla salūtat amicos cum gaudio.",
+          "englishSentence": "The maid greets her friends with joy."
+        }
+      ]
+    },
+    {
+      "chapterNumber": 3,
+      "chapterTitle": "Cambridge Latin Course Book 1 - Checklist 3",
+      "words": [
+        {
+          "latin": "ad",
+          "english": "to",
+          "latinSentence": "Puella ambulat ad forum.",
+          "englishSentence": "The girl walks to the market."
+        },
+        {
+          "latin": "bibit",
+          "english": "drinks",
+          "latinSentence": "Puer aquam bibit post ludum.",
+          "englishSentence": "The boy drinks water after playing."
+        },
+        {
+          "latin": "circumspectat",
+          "english": "looks around",
+          "latinSentence": "Discipulus circumspectat in aula nova.",
+          "englishSentence": "The student looks around in the new classroom."
+        },
+        {
+          "latin": "clāmat",
+          "english": "shouts",
+          "latinSentence": "Puer clāmat cum laetitia in via.",
+          "englishSentence": "The boy shouts with joy in the street."
+        },
+        {
+          "latin": "ecce!",
+          "english": "look!",
+          "latinSentence": "Ecce! Canis currit per forum.",
+          "englishSentence": "Look! The dog runs through the market."
+        },
+        {
+          "latin": "et",
+          "english": "and",
+          "latinSentence": "Marcus et Lucius in ludum eunt.",
+          "englishSentence": "Marcus and Lucius go to play."
+        },
+        {
+          "latin": "exit",
+          "english": "goes out",
+          "latinSentence": "Puella exit ex domo ad ludum.",
+          "englishSentence": "The girl goes out of the house to play."
+        },
+        {
+          "latin": "īrātus",
+          "english": "angry",
+          "latinSentence": "Magister īrātus est de tardis discipulis.",
+          "englishSentence": "The teacher is angry about the late students."
+        },
+        {
+          "latin": "portat",
+          "english": "carries",
+          "latinSentence": "Servus portat cibum in mensa.",
+          "englishSentence": "The slave carries food to the table."
+        },
+        {
+          "latin": "respondet",
+          "english": "replies",
+          "latinSentence": "Discipulus respondet ad magistrum cum respectu.",
+          "englishSentence": "The student replies to the teacher with respect."
+        },
+        {
+          "latin": "rīdet",
+          "english": "laughs, smiles",
+          "latinSentence": "Puella rīdet in schola cum amicis.",
+          "englishSentence": "The girl laughs with her friends at school."
+        },
+        {
+          "latin": "salvē!",
+          "english": "hello!",
+          "latinSentence": "Salvē! in via pueri inter se vocant.",
+          "englishSentence": "Hello! the boys call to each other in the street."
+        },
+        {
+          "latin": "surgit",
+          "english": "gets up, stands up",
+          "latinSentence": "Puer surgit mane ad scholam.",
+          "englishSentence": "The boy gets up early for school."
+        },
+        {
+          "latin": "taberna",
+          "english": "shop, inn",
+          "latinSentence": "Mercator in taberna novas res ostendit.",
+          "englishSentence": "The merchant shows new items in the shop."
+        },
+        {
+          "latin": "videt",
+          "english": "sees",
+          "latinSentence": "Ancilla videt urbem a fronte.",
+          "englishSentence": "The maid sees the city from the window."
+        },
+        {
+          "latin": "vīnum",
+          "english": "wine",
+          "latinSentence": "Dominus bibit vīnum in convivio.",
+          "englishSentence": "The master drinks wine at the banquet."
+        }
+      ]
+    }
+  ]
+}
