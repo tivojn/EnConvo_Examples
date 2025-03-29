@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "Latin-Vocab-Shadcn/server.js", "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "/Latin-Vocab-Shadcn/server.js" }
+  ]
+}
