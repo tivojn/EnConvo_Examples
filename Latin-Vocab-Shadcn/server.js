@@ -92,7 +92,7 @@ function readJsonFile(filePath) {
           writeJsonFile(filePath, fallbackUsers);
           return fallbackUsers;
         } 
-        else if (fileName === 'vocabulary.json' || fileName === 'vocabulary-bk2.json') {
+        else if (fileName === 'vocabulary.json' || fileName === 'vocabulary-bk2.json' || fileName === 'vocabulary-bk3.json') {
           console.log(`Missing vocabulary file: ${fileName}`);
           return { stages: [] };
         }
@@ -122,7 +122,7 @@ function readJsonFile(filePath) {
         console.log('Returning fallback users.json due to error');
         return { users: [] };
       } 
-      else if (fileName === 'vocabulary.json' || fileName === 'vocabulary-bk2.json') {
+      else if (fileName === 'vocabulary.json' || fileName === 'vocabulary-bk2.json' || fileName === 'vocabulary-bk3.json') {
         console.log(`Returning empty stages for ${fileName} due to error`);
         return { stages: [] };
       }
