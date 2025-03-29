@@ -6,10 +6,13 @@
     { "src": "css/**", "use": "@vercel/static" },
     { "src": "icon.png", "use": "@vercel/static" },
     { "src": "ORT/**", "use": "@vercel/static" },
+    { "src": "Latin-Vocab-Shadcn/public/**", "use": "@vercel/static" },
     { "src": "Latin-Vocab-Shadcn/server.js", "use": "@vercel/node" }
   ],
   "routes": [
     { "src": "/Latin-Vocab-Shadcn/api/(.*)", "dest": "/Latin-Vocab-Shadcn/server.js" },
+    { "src": "/Latin-Vocab-Shadcn/public/(.*)", "dest": "/Latin-Vocab-Shadcn/public/$1" },
+    { "src": "/Latin-Vocab-Shadcn", "dest": "/Latin-Vocab-Shadcn/server.js" },
     { "src": "/Latin-Vocab-Shadcn/(.*)", "dest": "/Latin-Vocab-Shadcn/server.js" },
     { "src": "/ORT/(.*)", "dest": "/ORT/$1" },
     { "src": "/favicon.ico", "dest": "/favicon.ico" },
