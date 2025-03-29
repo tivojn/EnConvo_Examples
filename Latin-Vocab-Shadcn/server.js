@@ -24,7 +24,8 @@ app.use(bodyParser.json());
 
 const VOCABULARY_FILES = {
   'bk1': path.join(__dirname, config.data.vocabularyFiles.bk1),
-  'bk2': path.join(__dirname, config.data.vocabularyFiles.bk2)
+  'bk2': path.join(__dirname, config.data.vocabularyFiles.bk2),
+  'bk3': path.join(__dirname, config.data.vocabularyFiles.bk3)
 };
 
 const DEFAULT_BOOK = config.data.defaultBook;
@@ -196,7 +197,8 @@ app.get('/api/vocabulary/books', (req, res) => {
   try {
     const books = [
       { id: 'bk1', title: 'Cambridge Latin Course Book 1' },
-      { id: 'bk2', title: 'Cambridge Latin Course Book 2' }
+      { id: 'bk2', title: 'Cambridge Latin Course Book 2' },
+      { id: 'bk3', title: 'Cambridge Latin Course Book 3' }
     ];
     
     res.json(books);
@@ -811,7 +813,8 @@ app.get('/api/debug/environment', (req, res) => {
     rootPath: __dirname,
     vocabFilesPath: {
       bk1: VOCABULARY_FILES['bk1'],
-      bk2: VOCABULARY_FILES['bk2']
+      bk2: VOCABULARY_FILES['bk2'],
+      bk3: VOCABULARY_FILES['bk3']
     },
     usersFilePath: USERS_FILE
   });
@@ -825,6 +828,10 @@ app.get('/api/debug/files', (req, res) => {
     },
     'vocabulary-bk2.json': {
       exists: fs.existsSync(VOCABULARY_FILES['bk2']),
+      message: ''
+    },
+    'vocabulary-bk3.json': {
+      exists: fs.existsSync(VOCABULARY_FILES['bk3']),
       message: ''
     },
     'users.json': {
@@ -859,9 +866,11 @@ app.get('/api/debug/files', (req, res) => {
               ? VOCABULARY_FILES['bk1'] 
               : (file === 'vocabulary-bk2.json' 
                   ? VOCABULARY_FILES['bk2'] 
-                  : (file === 'users.json' 
-                      ? USERS_FILE 
-                      : path.join(__dirname, file))));
+                  : (file === 'vocabulary-bk3.json' 
+                      ? VOCABULARY_FILES['bk3'] 
+                      : (file === 'users.json' 
+                          ? USERS_FILE 
+                          : path.join(__dirname, file))));
         
         const buffer = Buffer.alloc(10);
         const fd = fs.openSync(filePath, 'r');

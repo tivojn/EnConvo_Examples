@@ -16,7 +16,8 @@ module.exports = {
   data: {
     vocabularyFiles: {
       bk1: './vocabulary-bk1.json',
-      bk2: './vocabulary-bk2.json'
+      bk2: './vocabulary-bk2.json',
+      bk3: './vocabulary-bk3.json'
     },
     usersFile: './users.json',
     defaultBook: 'bk1'
