@@ -195,14 +195,17 @@ app.get('/api/vocabulary/stages', (req, res) => {
 
 app.get('/api/vocabulary/books', (req, res) => {
   try {
+    console.log('Fetching books list');
     const books = [
       { id: 'bk1', title: 'Cambridge Latin Course Book 1' },
       { id: 'bk2', title: 'Cambridge Latin Course Book 2' },
       { id: 'bk3', title: 'Cambridge Latin Course Book 3' }
     ];
     
+    console.log('Books list:', books);
     res.json(books);
   } catch (error) {
+    console.error('Error fetching books:', error);
     return res.status(500).json({ error: error.message });
   }
 });
@@ -634,7 +637,7 @@ app.get('/api/practice/next-question', (req, res) => {
 });
 
 app.post('/api/practice/submit-answer', (req, res) => {
-  const { username, latinWord, userAnswer, format, book } = req.body;
+  const { username, latinWord, userAnswer, format, book, questionType } = req.body;
   
   if (!username || !latinWord || !userAnswer) {
     return res.status(400).json({ error: 'Missing required fields' });
@@ -669,33 +672,41 @@ app.post('/api/practice/submit-answer', (req, res) => {
   }
   
   let isCorrect = false;
+  const normalizedUserAnswer = userAnswer.trim().toLowerCase();
+  const normalizedCorrectEnglish = correctWord.english.trim().toLowerCase();
+  const normalizedCorrectLatin = correctWord.latin.trim().toLowerCase();
   
   if (format === 'fill-in-the-blank') {
-    const normalizedUserAnswer = userAnswer.trim().toLowerCase();
-    const normalizedCorrectEnglish = correctWord.english.trim().toLowerCase();
-    const normalizedCorrectLatin = correctWord.latin.trim().toLowerCase();
-    
-    isCorrect = (
-      normalizedUserAnswer === normalizedCorrectEnglish || 
-      normalizedUserAnswer === normalizedCorrectLatin
-    );
-    
-    if (!isCorrect) {
-      if (normalizedUserAnswer.length > 2) {
-        if (normalizedCorrectEnglish.includes(normalizedUserAnswer) ||
-            normalizedCorrectLatin.includes(normalizedUserAnswer)) {
-          const englishMatch = normalizedUserAnswer.length >= normalizedCorrectEnglish.length * 0.8;
-          const latinMatch = normalizedUserAnswer.length >= normalizedCorrectLatin.length * 0.8;
-          
-          isCorrect = englishMatch || latinMatch;
+    // For English to Latin translation
+    if (questionType === 'english-to-latin') {
+      isCorrect = normalizedUserAnswer === normalizedCorrectLatin;
+      
+      // Only allow very close matches for Latin answers
+      if (!isCorrect && normalizedUserAnswer.length > 2) {
+        // Check if it's just missing a case ending
+        const stemLength = Math.min(normalizedUserAnswer.length, normalizedCorrectLatin.length) - 2;
+        if (stemLength > 0) {
+          const userStem = normalizedUserAnswer.substring(0, stemLength);
+          const correctStem = normalizedCorrectLatin.substring(0, stemLength);
+          isCorrect = userStem === correctStem && 
+                     normalizedUserAnswer.length >= normalizedCorrectLatin.length - 1;
         }
       }
+    } 
+    // For Latin to English translation
+    else {
+      isCorrect = normalizedUserAnswer === normalizedCorrectEnglish;
+      
+      // No partial matches for English translations
+      // They must match exactly
     }
   } else {
-    isCorrect = (
-      userAnswer === correctWord.english || 
-      userAnswer === correctWord.latin
-    );
+    // For multiple choice
+    if (questionType === 'english-to-latin') {
+      isCorrect = normalizedUserAnswer === normalizedCorrectLatin;
+    } else {
+      isCorrect = normalizedUserAnswer === normalizedCorrectEnglish;
+    }
   }
   
   if (!usersData.users[userIndex].vocabProgress[latinWord]) {
@@ -740,7 +751,7 @@ app.post('/api/practice/submit-answer', (req, res) => {
   
   res.json({
     correct: isCorrect,
-    correctAnswer: correctWord.english,
+    correctAnswer: questionType === 'english-to-latin' ? correctWord.latin : correctWord.english,
     latinWord: correctWord.latin,
     latinSentence: correctWord.latinSentence,
     englishSentence: correctWord.englishSentence,
@@ -870,7 +881,7 @@ app.get('/api/debug/files', (req, res) => {
                       ? VOCABULARY_FILES['bk3'] 
                       : (file === 'users.json' 
                           ? USERS_FILE 
-                          : path.join(__dirname, file))));
+                          : path.join(__dirname, file)))));
         
         const buffer = Buffer.alloc(10);
         const fd = fs.openSync(filePath, 'r');
@@ -1013,10 +1024,9 @@ app.use((err, req, res, next) => {
   res.status(500).send('Server error. Please try again later.');
 });
 
-if (process.env.NODE_ENV !== 'production') {
-  app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-  });
-}
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
 
 module.exports = app;

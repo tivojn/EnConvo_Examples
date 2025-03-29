@@ -369,7 +369,9 @@ async function getAllVocabularyWords() {
     });
     return [];
   }
-}// State management
+}
+
+// State management
 const appState = {
   currentUser: null,
   selectedBook: 'bk1', // Default to Book 1
@@ -577,15 +579,22 @@ async function fetchBooks() {
     // Store books in app state
     appState.books = books;
     
-    // Render books in dropdown (already populated in HTML with default values)
-    // This part would be uncommented if you want to dynamically load books from the API
-    /*
+    // Render books in dropdown
     renderBooks(books);
-    */
   } catch (error) {
     debugLog.error('fetchBooks', 'Error fetching books', { message: error.message, stack: error.stack });
-    // Books are hardcoded in HTML so we don't need a fallback
+    showError('Failed to load books. Please try again later.');
   }
+}
+
+function renderBooks(books) {
+  elements.bookSelect.innerHTML = '<option value="">Select a book...</option>';
+  books.forEach(book => {
+    const option = document.createElement('option');
+    option.value = book.id;
+    option.textContent = book.title;
+    elements.bookSelect.appendChild(option);
+  });
 }
 
 async function fetchStages(bookId) {
@@ -735,87 +744,34 @@ async function fetchNextQuestion() {
 }
 
 // Submit answer
-async function submitAnswer(selectedAnswer, format) {
-  if (!appState.currentUser || !appState.currentQuestion) {
-    debugLog.warning('submitAnswer', 'Cannot submit without user or question', { user: !!appState.currentUser, question: !!appState.currentQuestion });
-    showError('Please log in and start a quiz first.');
+async function submitAnswer(selectedAnswer) {
+  if (!appState.currentQuestion) {
+    showError('No active question to submit answer for');
     return;
   }
-  
+
   try {
-    // Log the question structure for debugging
-    debugLog.info('submitAnswer', 'Current question data', appState.currentQuestion);
-    
-    // Extract latinWord based on question type
-    let latinWord = '';
-    
-    // Check different possible structures
-    if (appState.currentQuestion.latinWord) {
-      latinWord = appState.currentQuestion.latinWord;
-    } else if (appState.currentQuestion.latin) {
-      latinWord = appState.currentQuestion.latin;
-    } else if (appState.currentQuestion.type === 'english-to-latin') {
-      // If English to Latin, the correctAnswer contains the Latin word
-      latinWord = appState.currentQuestion.correctAnswer;
-    } else if (appState.currentQuestion.type === 'latin-to-english') {
-      // If Latin to English, the englishWord contains the Latin word we're asking about
-      latinWord = appState.currentQuestion.englishWord || appState.currentQuestion.latin || '';
-    }
-    
-    // Final fallback - use correctAnswer as the latinWord
-    if (!latinWord && appState.currentQuestion.correctAnswer) {
-      latinWord = appState.currentQuestion.correctAnswer;
-    }
-    
-    if (!latinWord) {
-      debugLog.error('submitAnswer', 'Missing latinWord in current question', appState.currentQuestion);
-      showError('Cannot submit answer: missing word data. Please try another question.');
-      return;
-    }
-    
-    const requestData = {
-      username: appState.currentUser,
-      latinWord: latinWord,
-      userAnswer: selectedAnswer,
-      format: format || 'multiple-choice',
-      book: appState.selectedBook
-    };
-    
-    debugLog.info('submitAnswer', 'Submitting answer', requestData);
-    
     const response = await fetch(apiUrl('/api/practice/submit-answer'), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(requestData)
+      body: JSON.stringify({
+        username: appState.currentUser,
+        latinWord: appState.currentQuestion.latinWord || appState.currentQuestion.correctAnswer,
+        userAnswer: selectedAnswer,
+        format: appState.currentQuestion.format,
+        book: appState.selectedBook,
+        questionType: appState.currentQuestion.type
+      })
     });
-    
-    // Log the complete response for debugging
-    const responseText = await response.text();
-    let responseData;
-    try {
-      // Try to parse response as JSON
-      responseData = JSON.parse(responseText);
-    } catch (e) {
-      // If not JSON, store as text
-      responseData = { text: responseText };
-    }
-    
+
     if (!response.ok) {
-      debugLog.error('submitAnswer', 'Failed to submit answer', { 
-        status: response.status, 
-        statusText: response.statusText, 
-        responseData 
-      });
       throw new Error('Failed to submit answer');
     }
-    
-    // If we get here, response was ok
-    debugLog.success('submitAnswer', 'Answer submitted successfully', responseData);
-    
-    // Show feedback
-    showFeedback(responseData);
+
+    const result = await response.json();
+    showFeedback(result);
   } catch (error) {
     debugLog.error('submitAnswer', 'Error submitting answer', { message: error.message, stack: error.stack });
     showError('Failed to submit answer. Please try again.');
@@ -928,7 +884,7 @@ function renderMultipleChoiceQuestion(question) {
         });
         
         // Submit answer
-        submitAnswer(option, 'multiple-choice');
+        submitAnswer(option);
       }
     });
     
@@ -981,7 +937,7 @@ function renderFillInBlankQuestion(question) {
       submitBtn.classList.add('disabled');
       
       // Submit answer
-      submitAnswer(answer, 'fill-in-the-blank');
+      submitAnswer(answer);
     } else {
       debugLog.warning('renderFillInBlankQuestion', 'Empty answer attempted');
     }
@@ -1039,12 +995,13 @@ function showFeedback(result) {
       </div>
     `;
   } else {
+    const answerType = appState.currentQuestion.type === 'english-to-latin' ? 'Latin' : 'English';
     feedbackDiv.innerHTML = `
       <div class="flex items-center">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
           <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
         </svg>
-        <span class="font-medium">Incorrect. The correct answer is: "${correctAnswer}"</span>
+        <span class="font-medium">Incorrect. The correct ${answerType} word is: "${correctAnswer}"</span>
       </div>
     `;
     
