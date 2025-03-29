@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentPage = 0;
     const totalPages = pages.length;
     let isMuted = false;
+    let hasUserInteracted = false;
 
     // Audio elements
     const allAudio = document.querySelectorAll('audio');
@@ -18,7 +19,20 @@ document.addEventListener('DOMContentLoaded', function() {
     const soundButtons = document.querySelectorAll('.play-sound');
     const muteToggleButton = document.querySelector('.mute-toggle');
 
-    // Update progress bar
+    // Function to handle initial user interaction
+    function handleUserInteraction() {
+        if (!hasUserInteracted) {
+            hasUserInteracted = true;
+            playCurrentNarration();
+        }
+    }
+
+    // Add interaction listeners
+    document.addEventListener('click', handleUserInteraction, { once: true });
+    document.addEventListener('keydown', handleUserInteraction, { once: true });
+    document.addEventListener('touchstart', handleUserInteraction, { once: true });
+
+    // Function to update progress bar
     function updateProgressBar() {
         const progress = ((currentPage) / (totalPages - 1)) * 100;
         progressBar.style.width = `${progress}%`;
@@ -50,67 +64,42 @@ document.addEventListener('DOMContentLoaded', function() {
             if (activePage) {
                 const narrationBtn = activePage.querySelector('.play-narration');
                 if (narrationBtn) {
-                    setTimeout(() => {
-                        // First stop any playing audio
-                        stopAllAudio();
+                    // First stop any playing audio
+                    stopAllAudio();
+                    
+                    // Get the narration audio element
+                    const audioId = narrationBtn.getAttribute('data-audio');
+                    const audio = document.getElementById(audioId);
+                    
+                    // Configure audio for immediate playback
+                    audio.volume = 1;
+                    audio.muted = false;
+                    
+                    audio.play().then(() => {
+                        narrationBtn.innerHTML = '<i class="fas fa-pause"></i> Pause Narration';
                         
-                        // Get the narration audio element
-                        const audioId = narrationBtn.getAttribute('data-audio');
-                        const audio = document.getElementById(audioId);
-                        
-                        // Try to play the narration, handling autoplay policy
-                        const playPromise = audio.play();
-                        
-                        // Handle potential autoplay restrictions
-                        if (playPromise !== undefined) {
-                            playPromise.then(() => {
-                                // Autoplay started successfully
-                                narrationBtn.innerHTML = '<i class="fas fa-pause"></i> Pause Narration';
-                                
-                                // When narration ends, play the sound effect if available
-                                audio.onended = function() {
-                                    narrationBtn.innerHTML = '<i class="fas fa-play"></i> Play Narration';
-                                    
-                                    // Find and play sound effect if it exists
-                                    const soundBtn = activePage.querySelector('.play-sound');
-                                    if (soundBtn) {
-                                        const soundId = soundBtn.getAttribute('data-audio');
-                                        const soundAudio = document.getElementById(soundId);
-                                        if (soundAudio && !isMuted) {
-                                            soundAudio.play().catch(e => {
-                                                console.log('Sound effect autoplay prevented:', e);
-                                            });
-                                        }
-                                    }
-                                };
-                            }).catch(e => {
-                                // Autoplay was prevented by the browser
-                                console.log('Narration autoplay prevented:', e);
-                                narrationBtn.innerHTML = '<i class="fas fa-play"></i> Play Narration';
-                                // Indicate to the user that they need to interact to play audio
-                                const notification = document.createElement('div');
-                                notification.className = 'autoplay-notification';
-                                notification.innerHTML = 'Click the Play button to start the narration';
-                                notification.style.position = 'absolute';
-                                notification.style.top = '10px';
-                                notification.style.left = '50%';
-                                notification.style.transform = 'translateX(-50%)';
-                                notification.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
-                                notification.style.padding = '10px 15px';
-                                notification.style.borderRadius = '5px';
-                                notification.style.boxShadow = '0 2px 5px rgba(0,0,0,0.2)';
-                                notification.style.zIndex = '1000';
-                                activePage.appendChild(notification);
-                                
-                                // Remove notification after 5 seconds
-                                setTimeout(() => {
-                                    if (notification.parentNode) {
-                                        notification.parentNode.removeChild(notification);
-                                    }
-                                }, 5000);
-                            });
-                        }
-                    }, 500); // Small delay to ensure page transition is complete
+                        // When narration ends, play the sound effect if available
+                        audio.onended = function() {
+                            narrationBtn.innerHTML = '<i class="fas fa-play"></i> Play Narration';
+                            
+                            // Find and play sound effect if it exists
+                            const soundBtn = activePage.querySelector('.play-sound');
+                            if (soundBtn) {
+                                const soundId = soundBtn.getAttribute('data-audio');
+                                const soundAudio = document.getElementById(soundId);
+                                if (soundAudio && !isMuted) {
+                                    soundAudio.volume = 1;
+                                    soundAudio.muted = false;
+                                    soundAudio.play().catch(() => {
+                                        // Handle sound effect play error silently
+                                    });
+                                }
+                            }
+                        };
+                    }).catch(() => {
+                        // If autoplay fails, show play button
+                        narrationBtn.innerHTML = '<i class="fas fa-play"></i> Play Narration';
+                    });
                 }
             }
         }
@@ -137,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function() {
         updateProgressBar();
         
         // Auto-play narration when page loads
-        playCurrentNarration();
+        setTimeout(playCurrentNarration, 500);
     }
 
     // Mute toggle functionality
