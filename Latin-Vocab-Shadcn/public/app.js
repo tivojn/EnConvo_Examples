@@ -99,7 +99,7 @@ async function showChapterVocabulary(e) {
   
   try {
     // Fetch chapter data
-    const response = await fetch(`/api/vocabulary/chapters/${appState.selectedChapter}?book=${appState.selectedBook}`);
+    const response = await fetch(apiUrl(`/api/vocabulary/chapters/${appState.selectedChapter}?book=${appState.selectedBook}`));
     
     if (!response.ok) {
       throw new Error('Failed to fetch chapter vocabulary');
@@ -331,7 +331,7 @@ function hideVocabList() {
 async function getAllVocabularyWords() {
   try {
     // Fetch all chapters
-    const response = await fetch(`/api/vocabulary/chapters?book=${appState.selectedBook}`);
+    const response = await fetch(apiUrl(`/api/vocabulary/chapters?book=${appState.selectedBook}`));
     
     if (!response.ok) {
       throw new Error('Failed to fetch chapters');
@@ -344,7 +344,7 @@ async function getAllVocabularyWords() {
     
     // For each chapter, fetch its words
     for (const chapter of chapters) {
-      const chapterResponse = await fetch(`/api/vocabulary/chapters/${chapter.chapterNumber}?book=${appState.selectedBook}`);
+      const chapterResponse = await fetch(apiUrl(`/api/vocabulary/chapters/${chapter.chapterNumber}?book=${appState.selectedBook}`));
       
       if (chapterResponse.ok) {
         const chapterData = await chapterResponse.json();
@@ -563,7 +563,7 @@ function setQuestionFormat(format) {
 async function fetchBooks() {
   try {
     debugLog.info('fetchBooks', 'Fetching books...');
-    const response = await fetch('/api/vocabulary/books');
+    const response = await fetch(apiUrl('/api/vocabulary/books'));
     
     if (!response.ok) {
       const errorText = await response.text();
@@ -591,7 +591,7 @@ async function fetchBooks() {
 async function fetchChapters(bookId) {
   try {
     debugLog.info('fetchChapters', `Fetching chapters for book ${bookId}...`);
-    const response = await fetch(`/api/vocabulary/chapters?book=${bookId}`);
+    const response = await fetch(apiUrl(`/api/vocabulary/chapters?book=${bookId}`));
     
     if (!response.ok) {
       const errorText = await response.text();
@@ -712,7 +712,7 @@ async function fetchNextQuestion() {
     }
     
     debugLog.info('fetchNextQuestion', 'Fetching next question', { queryParams });
-    const response = await fetch(`/api/practice/next-question${queryParams}`);
+    const response = await fetch(apiUrl(`/api/practice/next-question${queryParams}`));
     
     if (!response.ok) {
       const errorText = await response.text();
@@ -783,7 +783,7 @@ async function submitAnswer(selectedAnswer, format) {
     
     debugLog.info('submitAnswer', 'Submitting answer', requestData);
     
-    const response = await fetch('/api/practice/submit-answer', {
+    const response = await fetch(apiUrl('/api/practice/submit-answer'), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -1120,7 +1120,7 @@ async function handleLogin() {
   }
   
   try {
-    const response = await fetch('/api/users/login', {
+    const response = await fetch(apiUrl('/api/users/login'), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -1192,7 +1192,7 @@ function updateUIAfterLogin(userData) {
 async function fetchUserProgress(username) {
   try {
     debugLog.info('fetchUserProgress', `Fetching progress for user: ${username}`);
-    const response = await fetch(`/api/users/${username}/progress`);
+    const response = await fetch(apiUrl(`/api/users/${username}/progress`));
     
     if (!response.ok) {
       const errorText = await response.text();

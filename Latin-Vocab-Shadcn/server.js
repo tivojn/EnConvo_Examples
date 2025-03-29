@@ -4,10 +4,21 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const config = require('./config');
 
+const BASE_PATH = process.env.VERCEL ? '/Latin-Vocab-Shadcn' : '';
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use((req, res, next) => {
+  if (req.url.startsWith(BASE_PATH)) {
+    req.url = req.url.substring(BASE_PATH.length);
+  }
+  next();
+});
+
+app.use(express.static(path.join(__dirname, 'public'), {
+  index: false
+}));
 app.use(express.json());
 app.use(bodyParser.json());
 
@@ -993,12 +1004,10 @@ app.use((err, req, res, next) => {
   res.status(500).send('Server error. Please try again later.');
 });
 
-// Start server only in non-production environment
 if (process.env.NODE_ENV !== 'production') {
   app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
   });
 }
 
-// Export the Express app for Vercel
 module.exports = app;
