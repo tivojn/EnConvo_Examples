@@ -1,0 +1,10 @@
+{
+  "users": [
+    {
+      "username": "test_user",
+      "passwordHash": "tempHash",
+      "chapterProgress": 1,
+      "vocabProgress": {}
+    }
+  ]
+}
