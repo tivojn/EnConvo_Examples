@@ -1,5 +1,4 @@
 {
-  "version": 2,
   "builds": [
     { "src": "index.html", "use": "@vercel/static" },
     { "src": "js/**", "use": "@vercel/static" },
@@ -8,9 +7,9 @@
     { "src": "Latin-Vocab-Shadcn/server.js", "use": "@vercel/node" }
   ],
   "routes": [
-    { "src": "/latin-vocab/(.*)", "dest": "/Latin-Vocab-Shadcn/server.js" },
-    { "src": "/api/(.*)", "dest": "/Latin-Vocab-Shadcn/server.js" },
-    { "src": "/$", "dest": "/index.html" },
+    { "src": "^/$", "dest": "/index.html" },
+    { "src": "^/Latin-Vocab-Shadcn(/.*)?$", "dest": "/Latin-Vocab-Shadcn/server.js" },
+    { "src": "^/Latin-Vocab-Shadcn/public/(.*)$", "dest": "/Latin-Vocab-Shadcn/public/$1" },
     { "src": "/(.+)\\.(js|css|png|jpg|svg|ico)$", "dest": "/$1.$2" }
   ]
 }
