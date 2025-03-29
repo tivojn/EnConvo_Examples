@@ -3,7 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Learn Latin vocabulary from Cambridge Latin Course with interactive practice exercises, progress tracking, and adaptive learning.">
   <title>Latin Vocabulary Learning</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
   <link rel="stylesheet" href="styles.css">
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -12,24 +16,24 @@
   <div id="app" class="container mx-auto p-4 max-w-5xl">
     <!-- Header -->
     <header class="bg-white rounded-lg shadow-md p-4 mb-6">
-      <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-        <h1 class="text-3xl font-bold text-gray-800 text-center md:text-left">
+      <div class="flex justify-between items-center">
+        <h1 class="text-3xl font-bold text-gray-800">
           <span class="text-purple-600">Latin</span> Vocabulary
         </h1>
-        <div id="user-section" class="w-full md:w-auto">
+        <div id="user-section">
           <!-- Login Form (shown when not logged in) -->
-          <div id="login-form" class="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-2 w-full md:w-auto">
+          <div id="login-form" class="flex items-center space-x-2">
             <input type="text" id="username-input" placeholder="Username" 
-              class="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 w-full md:w-auto">
-            <button id="login-btn" class="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition w-full md:w-auto">
+              class="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500">
+            <button id="login-btn" class="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition">
               Login
             </button>
           </div>
           
           <!-- User Info (shown when logged in) -->
-          <div id="user-info" class="hidden flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-2 w-full md:w-auto">
-            <span class="text-gray-700 text-center md:text-left">Logged in as: <span id="current-user" class="font-bold"></span></span>
-            <button id="logout-btn" class="bg-gray-200 text-gray-700 px-3 py-1 rounded-md hover:bg-gray-300 transition w-full md:w-auto">
+          <div id="user-info" class="hidden flex items-center space-x-2">
+            <span class="text-gray-700">Logged in as: <span id="current-user" class="font-bold"></span></span>
+            <button id="logout-btn" class="bg-gray-200 text-gray-700 px-3 py-1 rounded-md hover:bg-gray-300 transition">
               Logout
             </button>
           </div>
@@ -207,7 +211,7 @@
     
     <!-- Footer -->
     <footer class="mt-8 text-center text-gray-500 text-sm">
-      <p>Latin Vocabulary Learning App © 2025 | <a href="debug.html" class="text-purple-600 hover:underline">Debug Logs</a></p>
+      <p>Latin Vocabulary Learning App © 2023-2025 | <a href="debug.html" class="text-purple-600 hover:underline">Debug Logs</a></p>
     </footer>
   </div>
   
