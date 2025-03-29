@@ -1,27 +1,16 @@
 {
-  // "builds" tells Vercel how to build each part:
+  "version": 2,
   "builds": [
-    // Build and serve index.html from the root:
     { "src": "index.html", "use": "@vercel/static" },
-
-    // If Latin-Vocab-Shadcn is a Next.js project (has package.json + next.config.js):
-    {
-      "src": "Latin-Vocab-Shadcn/package.json",
-      "use": "@vercel/next"
-    }
-
-    // Or if it’s just static HTML/JS/CSS, use:
-    // { "src": "Latin-Vocab-Shadcn/**", "use": "@vercel/static" }
+    { "src": "js/**", "use": "@vercel/static" },
+    { "src": "css/**", "use": "@vercel/static" },
+    { "src": "icon.png", "use": "@vercel/static" },
+    { "src": "Latin-Vocab-Shadcn/server.js", "use": "@vercel/node" }
   ],
-  // "routes" tells Vercel which requests map to which build:
   "routes": [
-    // Serve the root index.html at "/"
-    { "src": "^/$", "dest": "index.html" },
-
-    // Route anything under /Latin-Vocab-Shadcn to that subfolder build:
-    {
-      "src": "^/Latin-Vocab-Shadcn/(.*)$",
-      "dest": "Latin-Vocab-Shadcn/$1"
-    }
+    { "src": "/latin-vocab/(.*)", "dest": "/Latin-Vocab-Shadcn/server.js" },
+    { "src": "/api/(.*)", "dest": "/Latin-Vocab-Shadcn/server.js" },
+    { "src": "/$", "dest": "/index.html" },
+    { "src": "/(.+)\\.(js|css|png|jpg|svg|ico)$", "dest": "/$1.$2" }
   ]
 }
